@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+	{% if search_term %}
+		{% include 'breadcrumbs.html' %}
+		<h2><strong>&#34;{{ search_term }}&#34;</strong>的搜索结果</h2>
+	{% endif %}
+
+	{% if products %}
+
+		{% for product in products %}
+		  <div class="col-sm-6 col-md-4">
+		    <div class="thumbnail">
+		      <img src="{{ MEDIA_URL }}{{ product.productimage_set.first.image }}" alt="{{ product.title }}"/>
+		      <div class="caption text-center">
+		        <h3>{{ product.title }}</h3>
+		        <p>{{ product.description }}</p>
+				<a href='{% url "single_product" product.slug %}' class="btn btn-default" role="button">产品明细</a>
+		      </div>
+		    </div>
+		  </div>
+
+		{% endfor %}
+
+	{% else %}
+
+		{% if search_term %}
+			<p>度不起，搜不到你想要的东西。</p>
+		{% else %}
+			<p>No prodcts have been listed in this store.</p>
+		{% endif %}
+
+	{% endif %}
+
+{% endblock %}
